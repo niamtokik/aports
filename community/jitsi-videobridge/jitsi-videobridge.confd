@@ -1,7 +1,9 @@
 # Sample conf.d file for alpine linux
+# jitsi-videobridge default configuration
 
-#
-# Specify daemon options here.
-#
-
-sample_opts=""
+XMPP_HOST="localhost"
+XMPP_DOMAIN="none"
+XMPP_SECRET="set_your_secret_here"
+XMPP_PORT="5275"
+XMPP_SUBDOMAIN="jitsi-videobridge"
+XMPP_APIS="xmpp"

@@ -7,14 +7,30 @@ description_checkconfig="verify configuration file"
 description_reload="Reload configuration"
 
 name="jitsi-videobridge"
-command="/usr/bin/java"
-command_args="$sample_opts"
+command="/usr/share/jitsi-videobridge/jvb.sh"
+command_args=""
 command_background="yes"
 
-start_stop_daemon_args="--user $sample_user:$sample_group"
+start_stop_daemon_args="--user jitsi-videobridge:jitsi-videobridge -b"
 pidfile="/run/$name.pid"
 
 depend() {
 	need net
 	after firewall
+}
+
+start() {
+	ebegin "Starting ${name}"
+	start-stop-daemon --start \
+		--background \
+		--exec ${command} \
+		--pidfile /var/run/${name}.pid \
+		-- \
+		--secret=${XMPP_SECRET} \
+		--domain=${XMPP_DOMAIN} \
+		--host=${XMPP_HOST} \
+		--port=${XMPP_PORT} \
+		--subdomain=${XMPP_SUBDOMAIN} \
+		--apis=${XMPP_APIS}
+	eend $?	
 }
