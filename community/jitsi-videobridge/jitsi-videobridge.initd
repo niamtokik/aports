@@ -2,7 +2,7 @@
 
 # Sample init.d file for alpine linux.
 
-name=
+name=jitsi-videobridge
 command="/usr/sbin/$name"
 command_args="$sample_opts"
 command_background="yes"

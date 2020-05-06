@@ -1,34 +1,34 @@
 # Contributor:
 # Maintainer:
 pkgname=jitsi-videobridge
-pkgver=
+pkgver=4548
 pkgrel=0
-pkgdesc=""
-url=""
+pkgdesc="jitsi-videobridge"
+url="https://jitsi.org"
 arch="all"
-license=""
-depends=""
-makedepends=""
+license="apache-2.0"
+depends="openjdk8-jre"
+makedepends="openjdk8-jre maven openjdk8"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="$pkgname-dev $pkgname-doc"
 source="
+	https://github.com/jitsi/jitsi-videobridge/archive/stable/jitsi-meet_${pkgver}.zip
 	jitsi-videobridge.initd
 	jitsi-videobridge.confd
 	"
-sha512sums="512331fd6b4c5621c14b8bf07a94b2318dc33fea245de1e66d6385e1dc4cbfde7cb0d53507b46c85a11defe65a936cca40ace80df76130c7af2ef5999899892c  jitsi-videobridge.initd
-f11f0d192cd7823307c2ce4ddc7b3fff5190f72d3f65a5524b487021a95a222aca1fd36ab1eb58ed533e7acd555bfb70f0c8a13db20338ea31527f3151fd2bd7  jitsi-videobridge.confd"
-builddir="$srcdir/"
 
 build() {
-	cd "$builddir"
+	cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
+	mvn -B package --file pom.xml
+	unzip target/jitsi-videobridge-2.1-SNAPSHOT-archive.zip
 }
 
 check() {
-	cd "$builddir"
+	cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
 }
 
 package() {
-	cd "$builddir"
+	cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
 
 	install -m755 -D "$srcdir"/$pkgname.initd \
 		"$pkgdir"/etc/init.d/$pkgname
@@ -36,3 +36,6 @@ package() {
 		"$pkgdir"/etc/conf.d/$pkgname
 }
 
+sha512sums="fce763a437117d47ecb88938e6a1c448e71da93317650f1990a39553e49951893f0744fa44a6f45fc66a5afad51ade24312b5c9cc27720eb017d9dbbb650ffc1  jitsi-meet_4548.zip
+1b7b7487df352d6c16f46b3b69f82346269e3fca474df46d232973d2e3446c19ca6869f00ef73d4362bb0a5f7f5a4d6cd4ac6ff8a4e9a5cd7486aac7c37fd89b  jitsi-videobridge.initd
+f11f0d192cd7823307c2ce4ddc7b3fff5190f72d3f65a5524b487021a95a222aca1fd36ab1eb58ed533e7acd555bfb70f0c8a13db20338ea31527f3151fd2bd7  jitsi-videobridge.confd"
