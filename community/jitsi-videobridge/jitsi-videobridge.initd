@@ -22,15 +22,25 @@ depend() {
 start() {
 	ebegin "Starting ${name}"
 	start-stop-daemon --start \
+		--name "${name}" \
 		--background \
-		--exec ${command} \
-		--pidfile /var/run/${name}.pid \
+		--user "jitsi-videobridge:jitsi-videobridge" \
+		--exec "${command}" \
+		--pidfile "/run/${name}.pid" \
+		--make-pidfile \
 		-- \
-		--secret=${XMPP_SECRET} \
-		--domain=${XMPP_DOMAIN} \
-		--host=${XMPP_HOST} \
-		--port=${XMPP_PORT} \
-		--subdomain=${XMPP_SUBDOMAIN} \
-		--apis=${XMPP_APIS}
+		--secret="${XMPP_SECRET}" \
+		--domain="${XMPP_DOMAIN}" \
+		--host="${XMPP_HOST}" \
+		--port="${XMPP_PORT}" \
+		--subdomain="${XMPP_SUBDOMAIN}" \
+		--apis="${XMPP_APIS}"
 	eend $?	
+}
+
+stop() {
+	ebegin "Stopping ${name}"
+	start-stop-daemon --stop \
+		--remove-pidfile \
+		--pidfile /run/${name}.pid 
 }
