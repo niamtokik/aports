@@ -1,9 +1,13 @@
 #!/sbin/openrc-run
+#
+# Sample init.d file for jitsi-videobridge
 
-# Sample init.d file for alpine linux.
+description="jitsi-videobridge"
+description_checkconfig="verify configuration file"
+description_reload="Reload configuration"
 
-name=jitsi-videobridge
-command="/usr/sbin/$name"
+name="jitsi-videobridge"
+command="/usr/bin/java"
 command_args="$sample_opts"
 command_background="yes"
 

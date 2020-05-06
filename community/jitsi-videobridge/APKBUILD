@@ -33,15 +33,29 @@ package() {
 	target="$srcdir/jitsi-videobridge-stable-jitsi-meet_${pkgver}"
 
 	mkdir -p $pkgdir/usr/share/jitsi-videobridge
-
-	install -m555 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jitsi-videobridge.jar \
+	mkdir -p $pkgdir/usr/share/jitsi-videobridge/lib
+	install -m544 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jitsi-videobridge.jar \
 		"$pkgdir"/usr/share/jitsi-videobridge/jitsi-videobridge.jar
-
-	install -m555  "$target"/jitsi-videobridge-2.1-SNAPSHOT/jvb.sh \
+	install -m544 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jvb.sh \
 		"$pkgdir"/usr/share/jitsi-videobridge
+	install -m444 "$target"/jitsi-videobridge-2.1-SNAPSHOT/lib/*.jar \
+		"$pkgdir"/usr/share/jitsi-videobridge/lib/
 
-	install -m755 -c -D "$target"/jitsi-videobridge-2.1-SNAPSHOT/lib/* \
-		"$pkgdir"/usr/share/jitsi-videobridge/lib
+	mkdir -p $pkgdir/usr/share/jitsi-videobridge/sysctl.d
+	install -m444 $target/config/20-jvb-udp-buffers.conf \
+		$pkgdir/usr/share/jitsi-videobridge/sysctl.d/jitsi-videobridge.conf 
+
+	mkdir -p $pkgdir/usr/share/jitsi-videobridge/logrotate.d
+	install -m444 $target/config/logrotate \
+		$pkgdir/usr/share/jitsi-videobridge/logrotate.d/jitsi-videobridge.conf
+
+	mkdir -p $pkgdir/etc/jitsi/videobridge
+	install -m444 $target/lib/logging.properties \
+		$pkgdir/etc/jitsi/videobridge/
+	install -m444 $target/config/log4j2.xml \
+		$pkgdir/etc/jitsi/videobridge/
+	install -m444 $target/config/callstats-java-sdk.properties \
+		$pkgdir/etc/jitsi/videobridge/
 
 	install -m755 -D "$srcdir"/$pkgname.initd \
 		"$pkgdir"/etc/init.d/$pkgname
@@ -50,5 +64,5 @@ package() {
 }
 
 sha512sums="fce763a437117d47ecb88938e6a1c448e71da93317650f1990a39553e49951893f0744fa44a6f45fc66a5afad51ade24312b5c9cc27720eb017d9dbbb650ffc1  jitsi-meet_4548.zip
-1b7b7487df352d6c16f46b3b69f82346269e3fca474df46d232973d2e3446c19ca6869f00ef73d4362bb0a5f7f5a4d6cd4ac6ff8a4e9a5cd7486aac7c37fd89b  jitsi-videobridge.initd
+38ac9b8ab9d99325f98b4c412122a1154f81d5b10e3758fa819faf762d4682421d2b35f5658ed04472ff0e798701d46621c6451f7d6581375e75c1dae159e786  jitsi-videobridge.initd
 f11f0d192cd7823307c2ce4ddc7b3fff5190f72d3f65a5524b487021a95a222aca1fd36ab1eb58ed533e7acd555bfb70f0c8a13db20338ea31527f3151fd2bd7  jitsi-videobridge.confd"
