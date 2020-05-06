@@ -10,7 +10,7 @@ license="apache-2.0"
 depends="openjdk8-jre"
 makedepends="openjdk8-jre maven openjdk8"
 install="$pkgname.pre-install $pkgname.post-install"
-subpackages="$pkgname-dev $pkgname-doc"
+subpackages=""
 source="
 	https://github.com/jitsi/jitsi-videobridge/archive/stable/jitsi-meet_${pkgver}.zip
 	jitsi-videobridge.initd
@@ -24,11 +24,24 @@ build() {
 }
 
 check() {
-	cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
+	echo wip
+	# cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
 }
 
 package() {
-	cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
+	# cd "jitsi-videobridge-stable-jitsi-meet_${pkgver}"
+	target="$srcdir/jitsi-videobridge-stable-jitsi-meet_${pkgver}"
+
+	mkdir -p $pkgdir/usr/share/jitsi-videobridge
+
+	install -m555 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jitsi-videobridge.jar \
+		"$pkgdir"/usr/share/jitsi-videobridge/jitsi-videobridge.jar
+
+	install -m555  "$target"/jitsi-videobridge-2.1-SNAPSHOT/jvb.sh \
+		"$pkgdir"/usr/share/jitsi-videobridge
+
+	install -m755 -c -D "$target"/jitsi-videobridge-2.1-SNAPSHOT/lib/* \
+		"$pkgdir"/usr/share/jitsi-videobridge/lib
 
 	install -m755 -D "$srcdir"/$pkgname.initd \
 		"$pkgdir"/etc/init.d/$pkgname
