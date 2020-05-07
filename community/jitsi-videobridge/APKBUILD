@@ -34,9 +34,9 @@ package() {
 
 	mkdir -p $pkgdir/usr/share/jitsi-videobridge
 	mkdir -p $pkgdir/usr/share/jitsi-videobridge/lib
-	install -m544 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jitsi-videobridge.jar \
+	install -m444 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jitsi-videobridge.jar \
 		"$pkgdir"/usr/share/jitsi-videobridge/jitsi-videobridge.jar
-	install -m544 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jvb.sh \
+	install -m555 "$target"/jitsi-videobridge-2.1-SNAPSHOT/jvb.sh \
 		"$pkgdir"/usr/share/jitsi-videobridge
 	install -m444 "$target"/jitsi-videobridge-2.1-SNAPSHOT/lib/*.jar \
 		"$pkgdir"/usr/share/jitsi-videobridge/lib/
