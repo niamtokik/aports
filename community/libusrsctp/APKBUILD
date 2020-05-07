@@ -10,20 +10,20 @@ url="https://github.com/sctplab/usrsctp"
 arch="all"
 options="!check"  # No test suite.
 license="BSD-3-Clause"
-makedepends="automake autoconf libtool"
-subpackages="$pkgname-static $pkgname-dev"
+makedepends="automake autoconf libtool gcc"
+# subpackages="$pkgname-static $pkgname-dev"
+subpackages=""
 source="$pkgname-$pkgver.tar.gz::https://github.com/sctplab/usrsctp/archive/$_commit.tar.gz"
 builddir="$srcdir/$_pkgname-$_commit"
 
 prepare() {
+	cd usrsctp-${_commit}
 	./bootstrap
 }
 
 build() {
-	export CFLAGS="$CFLAGS -Wno-error=address-of-packed-member -Wno-error=cpp"
+	export CFLAGS="-Wno-error=cpp"
 	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--mandir=/usr/share/man \
